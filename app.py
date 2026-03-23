@@ -60,7 +60,38 @@ def add_application():
 
         return redirect(url_for('applications'))
     else:
-        return render_template('add_application.html')
+        return render_template('application_form.html')
+
+@app.route('/edit_application/<int:id>', methods=["GET", "POST"])
+def edit_application(id):
+    conn = get_db()
+    cursor = conn.cursor(dictionary=True)
+
+    if request.method == "POST":
+        job_id = request.form['job_id']
+        application_date = request.form['application_date']
+        status = request.form['status']
+        resume_version = request.form['resume_version']
+        cover_letter_sent = 1 if request.form.get('cover_letter_sent') else 0
+
+
+        cursor.execute("""
+            UPDATE applications
+            SET job_id=%s, application_date=%s, status=%s, resume_version=%s, cover_letter_sent=%s
+            WHERE application_id=%s
+        """, (job_id, application_date, status, resume_version, cover_letter_sent, id))
+
+        conn.commit()
+        conn.close()
+
+        flash('Application updated successfully!')
+        return redirect(url_for('applications'))
+
+    cursor.execute("SELECT * FROM applications WHERE application_id=%s", (id,))
+    application = cursor.fetchone()
+    conn.close()
+
+    return render_template('application_form.html', application=application)
 
 if __name__ == '__main__':
     app.run(debug=True)
