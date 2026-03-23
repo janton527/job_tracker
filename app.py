@@ -68,14 +68,14 @@ def edit_application(id):
     cursor = conn.cursor(dictionary=True)
 
     if request.method == "POST":
-        job_id = request.form['job_id']
+        job_id = request.form.get('job_id')
         application_date = request.form['application_date']
         status = request.form['status']
         resume_version = request.form['resume_version']
         cover_letter_sent = 1 if request.form.get('cover_letter_sent') else 0
         notes = request.form['notes']
-        response_date = request.form['response_date']
-        interview_date = request.form['interview_date']
+        response_date = request.form['response_date'] or None
+        interview_date = request.form['interview_date'] or None
 
 
         cursor.execute("""
@@ -97,6 +97,27 @@ def edit_application(id):
     conn.close()
 
     return render_template('application_form.html', application=application)
+
+@app.route('/delete_application/<int:id>', methods=["GET", "POST"])
+def delete_application(id):
+    conn = get_db()
+    cursor = conn.cursor(dictionary=True)
+
+    if request.method == "POST":
+        cursor.execute("DELETE FROM applications WHERE application_id=%s", (id,))
+        conn.commit()
+        conn.close()
+
+        flash("Application deleted successfully")
+        return redirect(url_for('applications'))
+
+    cursor.execute("SELECT * FROM applications WHERE application_id=%s", (id,))
+    application = cursor.fetchone()
+    conn.close()
+
+    return render_template('delete_application.html', application=application)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
