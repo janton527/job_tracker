@@ -73,13 +73,18 @@ def edit_application(id):
         status = request.form['status']
         resume_version = request.form['resume_version']
         cover_letter_sent = 1 if request.form.get('cover_letter_sent') else 0
+        notes = request.form['notes']
+        response_date = request.form['response_date']
+        interview_date = request.form['interview_date']
 
 
         cursor.execute("""
             UPDATE applications
-            SET job_id=%s, application_date=%s, status=%s, resume_version=%s, cover_letter_sent=%s
+            SET job_id=%s, application_date=%s, status=%s, resume_version=%s, 
+                cover_letter_sent=%s, notes=%s, response_date=%s, interview_date=%s
             WHERE application_id=%s
-        """, (job_id, application_date, status, resume_version, cover_letter_sent, id))
+        """, (job_id, application_date, status, resume_version, cover_letter_sent,
+                notes, response_date, interview_date, id))
 
         conn.commit()
         conn.close()

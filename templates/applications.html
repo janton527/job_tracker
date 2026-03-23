@@ -16,7 +16,7 @@
 			{% for column in applications[0].keys() %}
 				<td>{{ app[column] }}</td>
 			{% endfor %}
-			<td><a href="{{ url_for('edit_application', id=app.application_id) }}">Edit</a>
+			<td><a href="{{ url_for('edit_application', id=app.application_id) }}">Edit</a></td>
 		</tr>
 		{% endfor %}
 	</table>
