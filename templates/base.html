@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+	<head>
+		{% if title %}
+		<title>{{ title }} - Job Application Tracker</title>
+		{% else %}
+		<title>Welcome to Job Application Tracker</title>
+		{% endif %}
+	</head>
+	<body>
+		<div>
+			Job Application Tracker:
+			<a href="{{ url_for('dashboard') }}">Dashboard</a>
+		</div>
+		<hr>
+		{% with messages = get_flashed_messages() %}
+		{% if messages %}
+		<ul>
+			{% for message in messages %}
+			<li>{{ message }} </li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+		{% endwith %}
+		{% block content%}{% endblock %}
+	</body>
+</html>
