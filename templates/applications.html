@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h1>Applications</h1>
+
+	{% if applications %}
+	<table border="1">
+		<tr>
+			{% for column in applications[0].keys() %}
+				<th>{{ column }}</th>
+			{% endfor %}
+		</tr>
+		
+		{% for app in applications %}
+		<tr>
+			{% for column in applications[0].keys() %}
+				<td>{{ app[column] }}</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</table>
+
+{% else %}
+<p>No applications found.</p>
+{% endif %}
+
+{% endblock %}

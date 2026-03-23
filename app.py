@@ -19,5 +19,15 @@ def dashboard():
     conn.close()
     return render_template('dashboard.html', stats=stats)
 
+@app.route('/applications')
+def applications():
+    conn = get_db()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('SELECT * FROM applications')
+    applications = cursor.fetchall()
+    conn.close()
+
+    return render_template('applications.html', applications=applications)
+
 if __name__ == '__main__':
     app.run(debug=True)
