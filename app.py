@@ -128,6 +128,18 @@ def edit_job(id):
     app_data = crud.fetch_one("jobs", "job_id", id)
     return render_template('job_form.html', job=app_data)
 
+@app.route('/delete_job/<int:id>', methods=["GET", "POST"])
+def delete_job(id):
+    if request.method == "POST":
+        crud.delete("jobs", "job_id", id)
+        flash("Job deleted!")
+        return redirect(url_for('jobs'))
+
+    app_data = crud.fetch_one("jobs", "job_id", id)
+    return render_template('delete_job.html', job=app_data)
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

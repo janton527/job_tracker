@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h1>Delete Job</h1>
+	<p>Are you sure you want to delete this job?</p>
+
+	<table border="1">
+		<tr>
+			{% for column in job.keys() %}
+				<th>{{ column }}</th>
+			{% endfor %}
+		</tr>
+		<tr>
+			{% for column in job.keys() %}
+				<td>{{job[column] }}</td>
+			{% endfor %}
+		</tr>
+	</table>
+
+	<br>
+
+	<form method="POST">
+		<button type="submit">Yes, delete</button>
+		<a href="{{ url_for('jobs') }}">Cancel</a>
+	</form>
+
+{% endblock %}
