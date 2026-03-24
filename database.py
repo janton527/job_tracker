@@ -22,7 +22,7 @@ class CRUD:
     def fetch_one(self, table, id_field, id_value):
         conn = self.get_db()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute(f"SELECT * FROM {table} WHERE {id_field}=%s", (id_value))
+        cursor.execute(f"SELECT * FROM {table} WHERE {id_field}=%s", (id_value,))
         data = cursor.fetchone()
         conn.close()
         return data

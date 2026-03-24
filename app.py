@@ -48,39 +48,24 @@ def add_application():
 
 @app.route('/edit_application/<int:id>', methods=["GET", "POST"])
 def edit_application(id):
-    conn = get_db()
-    cursor = conn.cursor(dictionary=True)
-
     if request.method == "POST":
-        job_id = request.form.get('job_id')
-        application_date = request.form['application_date']
-        status = request.form['status']
-        resume_version = request.form['resume_version']
-        cover_letter_sent = 1 if request.form.get('cover_letter_sent') else 0
-        notes = request.form['notes']
-        response_date = request.form['response_date'] or None
-        interview_date = request.form['interview_date'] or None
+        data = {
+            "job_id": request.form['job_id'],
+            "application_date": request.form['application_date'],
+            "status": request.form['status'],
+            "resume_version": request.form['resume_version'],
+            "cover_letter_sent": 1 if request.form.get('cover_letter_sent') else 0,
+            "notes": request.form['notes'],
+            "response_date": request.form['response_date'] or None,
+            "interview_date": request.form['interview_date'] or None
+        }
 
-
-        cursor.execute("""
-            UPDATE applications
-            SET job_id=%s, application_date=%s, status=%s, resume_version=%s, 
-                cover_letter_sent=%s, notes=%s, response_date=%s, interview_date=%s
-            WHERE application_id=%s
-        """, (job_id, application_date, status, resume_version, cover_letter_sent,
-                notes, response_date, interview_date, id))
-
-        conn.commit()
-        conn.close()
-
-        flash('Application updated successfully!')
+        crud.update("applications", "application_id", id, data)
+        flash("Application updated!")
         return redirect(url_for('applications'))
 
-    cursor.execute("SELECT * FROM applications WHERE application_id=%s", (id,))
-    application = cursor.fetchone()
-    conn.close()
-
-    return render_template('application_form.html', application=application)
+    app_data = crud.fetch_one("applications", "application_id", id)
+    return render_template('application_form.html', application=app_data)
 
 @app.route('/delete_application/<int:id>', methods=["GET", "POST"])
 def delete_application(id):
