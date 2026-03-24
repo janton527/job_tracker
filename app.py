@@ -86,6 +86,26 @@ def jobs():
     jobs = crud.fetch_all('jobs')
     return render_template('jobs.html', jobs=jobs)
 
+@app.route('/add_job', methods=["GET", "POST"])
+def add_job():
+    if request.method == "POST":
+        data = {
+            "company_id": request.form['company_id'],
+            "job_title": request.form['job_title'],
+            "job_description": request.form['job_description'],
+            "salary_min": request.form['salary_min'],
+            "salary_max": request.form['salary_max'],
+            "job_type": request.form['job_type'],
+            "posting_url": request.form['posting_url'],
+            "date_posted": request.form['date_posted']
+        }
+
+        crud.insert("jobs", data)
+        flash("Job added!")
+        return redirect(url_for('jobs'))
+
+    return render_template('job_form.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
