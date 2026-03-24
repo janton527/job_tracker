@@ -106,6 +106,28 @@ def add_job():
 
     return render_template('job_form.html')
 
+@app.route('/edit_job/<int:id>', methods=["GET", "POST"])
+def edit_job(id):
+    if request.method == "POST":
+        data = {
+            "company_id": request.form['company_id'],
+            "job_title": request.form['job_title'],
+            "job_description": request.form['job_description'],
+            "salary_min": request.form['salary_min'],
+            "salary_max": request.form['salary_max'],
+            "job_type": request.form['job_type'],
+            "posting_url": request.form['posting_url'],
+            "date_posted": request.form['date_posted'] or None,
+            "is_active": 1 if request.form.get('is_active') else 0
+        }
+
+        crud.update("jobs", "job_id", id, data)
+        flash("Job updated!")
+        return redirect(url_for('jobs'))
+
+    app_data = crud.fetch_one("jobs", "job_id", id)
+    return render_template('job_form.html', job=app_data)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
