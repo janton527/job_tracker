@@ -25,6 +25,7 @@ def dashboard():
     conn.close()
     return render_template('dashboard.html', stats=stats)
 
+
 @app.route('/applications')
 def applications():
     apps = crud.fetch_all('applications')
@@ -78,6 +79,12 @@ def delete_application(id):
 
     app_data = crud.fetch_one("applications", "application_id", id)
     return render_template('delete_application.html', application=app_data)
+
+
+@app.route('/jobs')
+def jobs():
+    jobs = crud.fetch_all('jobs')
+    return render_template('jobs.html', jobs=jobs)
 
 
 if __name__ == '__main__':
