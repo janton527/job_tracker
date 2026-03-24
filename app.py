@@ -31,34 +31,20 @@ def applications():
 
 @app.route('/add_application', methods=["GET", "POST"])
 def add_application():
-    if request.method == "POST": 
-        job_id = request.form['job_id']
-        application_date = request.form['application_date']
-        status = request.form['status']
-        resume_version = request.form['resume_version']
-        cover_letter_sent = 1 if request.form.get('cover_letter_sent') else 0
+    if request.method == "POST":
+        data = {
+            "job_id": request.form['job_id'],
+            "application_date": request.form['application_date'],
+            "status": request.form['status'],
+            "resume_version": request.form['resume_version'],
+            "cover_letter_sent": 1 if request.form.get('cover_letter_sent') else 0
+        }
 
-        try:
-            conn = get_db()
-            cursor = conn.cursor()
-
-            cursor.execute("""
-                INSERT INTO applications 
-                    (job_id, application_date, status, resume_version, cover_letter_sent)
-                VALUES(%s, %s, %s, %s, %s)
-                """, (job_id, application_date, status, resume_version, cover_letter_sent))
-
-            conn.commit()
-
-            flash('Application added successfully!')
-        except Exception as e:
-            flash(f'Error: {e}', 'danger')
-        finally: 
-            conn.close()
-
+        crud.insert("applications", data)
+        flash("Application added!")
         return redirect(url_for('applications'))
-    else:
-        return render_template('application_form.html')
+
+    return render_template('application_form.html')
 
 @app.route('/edit_application/<int:id>', methods=["GET", "POST"])
 def edit_application(id):
