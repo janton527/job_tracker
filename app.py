@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
 import mysql.connector
+from database import crud
 import os
 
 app = Flask(__name__)
@@ -7,8 +8,10 @@ app.secret_key = os.urandom(24)
 
 def get_db():
     return mysql.connector.connect(
-        host='localhost', user='root',
-        password='Password1!', database='job_tracker'
+        host='localhost',
+        user='root',
+        password='Password1!',
+        database='job_tracker'
     )
 
 @app.route('/')
@@ -23,13 +26,8 @@ def dashboard():
 
 @app.route('/applications')
 def applications():
-    conn = get_db()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute('SELECT * FROM applications')
-    applications = cursor.fetchall()
-    conn.close()
-
-    return render_template('applications.html', applications=applications)
+    apps = crud.fetch_all('applications')
+    return render_template('applications.html', applications=apps)
 
 @app.route('/add_application', methods=["GET", "POST"])
 def add_application():
