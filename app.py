@@ -16,6 +16,7 @@ def get_db():
 
 @app.route('/')
 @app.route('/index')
+@app.route('/dashboard')
 def dashboard():
     conn = get_db()
     cursor = conn.cursor(dictionary=True)
@@ -37,6 +38,7 @@ def add_application():
             "application_date": request.form['application_date'],
             "status": request.form['status'],
             "resume_version": request.form['resume_version'],
+            "notes": request.form['notes'],
             "cover_letter_sent": 1 if request.form.get('cover_letter_sent') else 0
         }
 
@@ -69,23 +71,13 @@ def edit_application(id):
 
 @app.route('/delete_application/<int:id>', methods=["GET", "POST"])
 def delete_application(id):
-    conn = get_db()
-    cursor = conn.cursor(dictionary=True)
-
     if request.method == "POST":
-        cursor.execute("DELETE FROM applications WHERE application_id=%s", (id,))
-        conn.commit()
-        conn.close()
-
-        flash("Application deleted successfully")
+        crud.delete("applications", "application_id", id)
+        flash("Application deleted!")
         return redirect(url_for('applications'))
 
-    cursor.execute("SELECT * FROM applications WHERE application_id=%s", (id,))
-    application = cursor.fetchone()
-    conn.close()
-
-    return render_template('delete_application.html', application=application)
-
+    app_data = crud.fetch_one("applications", "application_id", id)
+    return render_template('delete_application.html', application=app_data)
 
 
 if __name__ == '__main__':
