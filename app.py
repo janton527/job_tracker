@@ -139,6 +139,57 @@ def delete_job(id):
     return render_template('delete_job.html', job=app_data)
 
 
+@app.route('/companies')
+def companies():
+    apps = crud.fetch_all('companies')
+    return render_template('companies.html', companies=apps)
+
+@app.route('/add_company', methods=["GET", "POST"])
+def add_company():
+    if request.method == "POST":
+        data = {
+            "company_name": request.form['company_name'],
+            "industry": request.form['industry'],
+            "website": request.form['website'],
+            "city": request.form['city'],
+            "state": request.form['state'],
+            "notes": request.form['notes']
+        }
+
+        crud.insert("companies", data)
+        flash("Company added!")
+        return redirect(url_for('companies'))
+
+    return render_template('company_form.html')
+
+@app.route('/edit_company/<int:id>', methods=["GET", "POST"])
+def edit_company(id):
+    if request.method == "POST":
+        data = {
+            "company_name": request.form['company_name'],
+            "industry": request.form['industry'],
+            "website": request.form['website'],
+            "city": request.form['city'],
+            "state": request.form['state'],
+            "notes": request.form['notes']
+        }
+
+        crud.update("companies", "company_id", id, data)
+        flash("Company updated!")
+        return redirect(url_for('companies'))
+
+    app_data = crud.fetch_one("companies", "company_id", id)
+    return render_template('company_form.html', company=app_data)
+
+@app.route('/delete_company/<int:id>', methods=["GET", "POST"])
+def delete_company(id):
+    if request.method == "POST": 
+        crud.delete("companies", "company_id", id)
+        flash("Company deleted!")
+        return redirect(url_for('companies'))
+
+    app_data = crud.fetch_one("companies", "company_id", id)
+    return render_template('delete_company.html', company=app_data)
 
 
 if __name__ == '__main__':
