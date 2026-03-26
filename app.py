@@ -192,5 +192,63 @@ def delete_company(id):
     return render_template('delete_company.html', company=app_data)
 
 
+@app.route('/contacts')
+def contacts():
+    apps = crud.fetch_all('contacts')
+    return render_template('contacts.html', contacts=apps)
+
+@app.route('/add_contact', methods=["GET", "POST"])
+def add_contact():
+    if request.method == "POST":
+        data = {
+            "company_id": request.form['company_id'],
+            "first_name": request.form['first_name'],
+            "last_name": request.form['last_name'],
+            "email": request.form['email'],
+            "phone": request.form['phone'],
+            "job_title": request.form['job_title'],
+            "linkedin_url": request.form['linkedin_url'],
+            "notes": request.form['notes']
+        }
+
+        crud.insert('contacts', data)
+        flash("Contact added!")
+        return redirect(url_for('contacts'))
+
+    return render_template('contact_form.html')
+
+@app.route('/edit_contact/<int:id>', methods=["GET", "POST"])
+def edit_contact(id):
+    if request.method == "POST": 
+        data = {
+            "company_id": request.form['company_id'],
+            "first_name": request.form['first_name'],
+            "last_name": request.form['last_name'],
+            "email": request.form['email'],
+            "phone": request.form['phone'],
+            "job_title": request.form['job_title'],
+            "linkedin_url": request.form['linkedin_url'],
+            "notes": request.form['notes']
+        }
+
+        crud.update("contacts", "contact_id", id, data)
+        flash("Contact added!")
+        return redirect(url_for('contacts'))
+
+    app_data = crud.fetch_one("contacts", "contact_id", id)
+    return render_template('contact_form.html', contact=app_data)
+
+@app.route('/delete_contact/<int:id>', methods=["GET", "POST"])
+def delete_contact(id):
+    if request.method == "POST": 
+        crud.delete("contacts", "contact_id", id)
+        flash("Contact Deleted")
+        return redirect(url_for('contacts'))
+
+    app_data = crud.fetch_one("contacts", "contact_id", id)
+    return render_template('delete_contact.html', contact=app_data)
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)

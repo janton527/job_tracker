@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h1>{{ 'Edit' if contact else 'Add' }} Contact</h1>
+	<form method="POST">
+
+		<label for="company_id">Company ID:</label>
+		<input type="number" name="company_id"
+					   value="{{ contact.company_id if contact else '' }}" required><br><br>
+
+		<label for="first_name">First Name:</label>
+		<input type="text" name="first_name"
+					   value="{{ contact.first_name if contact else '' }}" required><br><br>
+
+		<label for="last_name">Last Name:</label>
+		<input type="text" name="last_name"
+					   value="{{ contact.last_name if contact else '' }}" required><br><br>
+
+		<label for="email">Email:</label>
+		<input type="text" name="email"
+					   value="{{ contact.email if contact else '' }}" required><br><br>
+
+		<label for="phone">Phone:</label>
+		<input type="text" name="phone"
+					   value="{{ contact.phone if contact else '' }}" required><br><br>
+
+		<label for="job_title">Job Title:</label>
+		<input type="text" name="job_title"
+					   value="{{ contact.job_title if contact else '' }}" required><br><br>
+
+		<label for="linkedin_url">Linkedin URL:</label>
+		<input type="text" name="linkedin_url"
+					   value="{{ contact.linkedin_url if contact else '' }}" required><br><br>
+
+		<label for="notes">Notes:</label>
+		<input type="text" name="notes"
+					   value="{{ contact.notes if contact else '' }}" required><br><br>
+
+		<input type="submit" value="{{ 'Update' if contact else 'Add' }} Job">
+	</form>
+
+{% endblock %}
