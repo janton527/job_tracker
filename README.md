@@ -2,7 +2,7 @@
 
 A web application to help track job applications during the job search process. 
 
-## Features (Coming Soon)
+## Features
 - Track companies and job listings
 - Record application submissions
 - Manage interview schedules
@@ -12,3 +12,9 @@ A web application to help track job applications during the job search process.
 - MySQL Database
 - Python with Flask
 - HTML/CSS for the web interface
+
+## Dashboard Metrics to Impliment:
+- Interviews this week
+- Application -> interview rate
+- Coverletter conversion rate
+
