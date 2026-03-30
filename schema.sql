@@ -18,8 +18,10 @@ CREATE TABLE jobs (
 	job_id INT PRIMARY KEY AUTO_INCREMENT,
 	company_id INT,
 	job_title VARCHAR(100) NOT NULL,
+	job_description VARCHAR(200),
 	job_type ENUM('Full-time', 'Part-time', 'Contract', 'Internship'),
 	salary_min INT, salary_max INT,
+	job_url VARCHAR(300),
 	date_posted DATE,
 	requirements JSON,
 	FOREIGN KEY (company_id) REFERENCES companies(company_id)

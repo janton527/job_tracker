@@ -6,15 +6,31 @@
 	{% if jobs %}
 	<table border="1">
 		<tr>
-			{% for column in jobs[0].keys() %}
-				<th>{{ column }}</th>
+	    	{% for column in jobs[0].keys() %}
+		    {% if column != 'requirements' %}
+		    	<th>{{ column.replace('_', ' ').title() }}</th>
+		    {% else %}
+			{% for key in jobs[0][column].keys() %}
+			    <th>{{ key.replace('_', ' ').title() }}</th>
 			{% endfor %}
+		    {% endif %}
+    		{% endfor %}
 		</tr>
 		
 		{% for job in jobs %}
 		<tr>
-			{% for column in jobs[0].keys() %}
-				<td>{{ job[column] }}</td>
+			{% for column, value in job.items() %}
+			    {% if column != 'requirements' %}
+				{% if column == 'is_active' %}
+				    <td style="text-align:center;">{{ 'Yes' if value else 'No' }}</td>
+				{% else %}
+				    <td>{{ value }}</td>
+				{% endif %}
+			    {% else %}
+				{% for key, val in value.items() %}
+				    <td style="text-align:center;"> {{ val or '-' }}</td>
+				{% endfor %}
+			    {% endif %}
 			{% endfor %}
 			<td><a href="{{ url_for('edit_job', id=job.job_id) }}">Edit</a></td>
 			<td><a href="{{ url_for('delete_job', id=job.job_id) }}">Delete</a></td>

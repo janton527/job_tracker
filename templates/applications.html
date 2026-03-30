@@ -6,15 +6,6 @@
 	{% if applications %}
 	<table border="1">
 		<tr>
-		    {% set column_labels = {
-			"application_id" : 'ID',
-			"job_id" : 'Job ID',
-			"application_date": "Application Date",
-			"status": "Status",
-			"resume_version": "Resume Version",
-			"cover_letter_sent": "Cover Letter Sent",
-			"interview_data": "Response / Interview Dates"
-		    } %}
 
 		    {% for column in applications[0].keys() %}
 			{% if column != 'interview_data' %}

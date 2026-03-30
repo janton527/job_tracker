@@ -24,8 +24,7 @@ def dashboard():
     return render_template('dashboard.html', stats=stats)
 
 
-
-
+#----------------------------Applications Table------------------------------------
 @app.route('/applications')
 def applications():
     apps = crud.fetch_all('applications')
@@ -110,14 +109,15 @@ def delete_application(id):
 
     return render_template('delete_application.html', application=app_data)
 
-
+#----------------------------Jobs Table------------------------------------
 @app.route('/jobs')
 def jobs():
     jobs = crud.fetch_all('jobs')
 
     for job in jobs:
-        if job['requirements']:
-            job['requirements'] = json.loads(job['requirements'])
+        if job.get('requirements'):
+            if isinstance(job['requirements'], str):
+                job['requirements'] = json.loads(job['requirements'])
         else:
             job['requirements'] = {
                 "required_skills": "",
@@ -178,7 +178,8 @@ def edit_job(id):
             "job_type": request.form['job_type'],
             "posting_url": request.form['posting_url'],
             "date_posted": request.form['date_posted'] or None,
-            "is_active": 1 if request.form.get('is_active') else 0
+            "is_active": 1 if request.form.get('is_active') else 0,
+            "requirements": json.dumps(requirements)
         }
 
         crud.update("jobs", "job_id", id, data)
@@ -205,6 +206,7 @@ def delete_job(id):
     return render_template('delete_job.html', job=job_data)
 
 
+#----------------------------Companies Table------------------------------------
 @app.route('/companies')
 def companies():
     apps = crud.fetch_all('companies')
@@ -258,6 +260,7 @@ def delete_company(id):
     return render_template('delete_company.html', company=app_data)
 
 
+#----------------------------Contacts Table------------------------------------
 @app.route('/contacts')
 def contacts():
     apps = crud.fetch_all('contacts')

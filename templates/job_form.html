@@ -6,40 +6,60 @@
 		
 		<label for="compnay_id">Company ID:</label>
 		<input type="number" name="company_id"
-					   value="{{ job.company_id if job else '' }}" required><br><br>
+				value="{{ job.company_id if job else '' }}" required><br><br>
 
 		<label for="job_title">Job Title:</label>
 		<input type="text" name="job_title"
-					   value="{{ job.job_title if job else '' }}" required><br><br>
+				value="{{ job.job_title if job else '' }}" required><br><br>
 
 		<label for="job_description">Job Description:</label>
 		<input type="text" name="job_description"
-					   value="{{ job.job_description if job else '' }}" required><br><br>
+				value="{{ job.job_description if job else '' }}" required><br><br>
 
 		<label for="salary_min">Salary Minimum:</label>
 		<input type="number" name="salary_min"
-					   value="{{ job.salary_min if job else '' }}"><br><br>
+				value="{{ job.salary_min if job else '' }}"><br><br>
 
 		<label for="salary_max">Salary Maximum:</label>
 		<input type="number" name="salary_max"
-					   value="{{ job.salary_max if job else '' }}"><br><br>
+				value="{{ job.salary_max if job else '' }}"><br><br>
 
 		<label for="job_type">Job Type:</label>
 		<input type="text" name="job_type"
-					   value="{{ job.job_type if job else '' }}" required><br><br>
+				value="{{ job.job_type if job else '' }}" required><br><br>
 
 		<label for="posting_url">Posting URL:</label>
 		<input type="text" name="posting_url"
-					   value="{{ job.posting_url if job else '' }}" required><br><br>
+				value="{{ job.posting_url if job else '' }}" required><br><br>
 
 		<label for="date_posted">Date Posted:</label>
 		<input type="date" name="date_posted"
-					   value="{{ job.date_posted if job else '' }}" required><br><br>
+				value="{{ job.date_posted if job else '' }}" required><br><br>
+
+		<label for="required_skills">Required Skills:</label>
+		<input type="text" name="required_skills"
+			       value="{{ job.requirements.required_skills }}"><br><br>
+
+		<label for="preferred_skills">Preferred Skills:</label>
+		<input type="text" name="preferred_skills"
+			       value="{{ job.requirements.preferred_skills }}"><br><br>
+
+		<label for="education">Education:</label>
+		<input type="text" name="education"
+			       value="{{ job.requirements.education }}"><br><br>
+
+		<label for="experience_years">Years of Experience:</label>
+		<input type="number" name="experience_years"
+			       value="{{ job.requirements.experience_years }}"><br><br>
+
+		<label for="remote_option">Remote?</label>
+		<input type="checkbox" name="remote_option"
+				{% if job and job.remote_option %}checked{%endif%}><br><br>
 
 		{% if job %}
 		<label for="is_active">Listing Active?</label>
 		<input type="checkbox" name="is_active"
-							   {% if job and job.is_active %}checked{%endif%}><br><br>
+				{% if job and job.is_active %}checked{%endif%}><br><br>
 		{% endif %}
 
 		<input type="submit" value="{{ 'Update' if job else 'Add'}} Job">
