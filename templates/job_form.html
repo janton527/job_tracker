@@ -28,9 +28,9 @@
 		<input type="text" name="job_type"
 				value="{{ job.job_type if job else '' }}" required><br><br>
 
-		<label for="posting_url">Posting URL:</label>
-		<input type="text" name="posting_url"
-				value="{{ job.posting_url if job else '' }}" required><br><br>
+		<label for="job_url">Posting URL:</label>
+		<input type="text" name="job_url"
+				value="{{ job.job_url if job else '' }}" required><br><br>
 
 		<label for="date_posted">Date Posted:</label>
 		<input type="date" name="date_posted"
@@ -38,22 +38,23 @@
 
 		<label for="required_skills">Required Skills:</label>
 		<input type="text" name="required_skills"
-			       value="{{ job.requirements.required_skills }}"><br><br>
+			       value="{{ job.requirements['required_skills']|join(', ') if job and job.requirements else '' }}"><br><br>
 
 		<label for="preferred_skills">Preferred Skills:</label>
 		<input type="text" name="preferred_skills"
-			       value="{{ job.requirements.preferred_skills }}"><br><br>
+			       value="{{ job.requirements['preferred_skills']|join(', ') if job and job.requirements else '' }}"><br><br>
 
 		<label for="education">Education:</label>
 		<input type="text" name="education"
-			       value="{{ job.requirements.education }}"><br><br>
+			       value="{{ job.requirements['education'] if job and job.requirements else '' }}"><br><br>
 
 		<label for="experience_years">Years of Experience:</label>
 		<input type="number" name="experience_years"
-			       value="{{ job.requirements.experience_years }}"><br><br>
+			       value="{{ job.requirements['experience_years'] if job and job.requirements else '' }}"><br><br>
 
 		<label for="remote_option">Remote?</label>
-		<input type="checkbox" name="remote_option"
+		<input type="hidden" name="remote_option" value="0">
+		<input type="checkbox" name="remote_option" value="1"
 				{% if job and job.remote_option %}checked{%endif%}><br><br>
 
 		{% if job %}

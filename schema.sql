@@ -23,6 +23,7 @@ CREATE TABLE jobs (
 	salary_min INT, salary_max INT,
 	job_url VARCHAR(300),
 	date_posted DATE,
+	is_active BOOLEAN,
 	requirements JSON,
 	FOREIGN KEY (company_id) REFERENCES companies(company_id)
 );

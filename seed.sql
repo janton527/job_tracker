@@ -28,84 +28,234 @@ INSERT INTO companies (company_name, industry, website, city, state, notes) VALU
 ('PetCare Plus', 'Pet Care', 'https://petcare.com', 'Portland', 'OR', 'Pet services'),
 ('CleanEarth', 'Environment', 'https://cleanearth.org', 'Boulder', 'CO', 'Sustainability');
 
+
 INSERT INTO jobs 
-(company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, requirements)
-VALUES
-
-(1,'Software Engineer','Develop backend systems.',85000,140000,'Full-time','https://technova.com/jobs/1','2026-03-01',
- JSON_OBJECT('required_skills','Python, SQL','preferred_skills','Docker','education','Bachelors','experience_years',3,'remote_option',1)),
-
-(2,'Data Scientist','Analyze datasets and build models.',90000,150000,'Full-time','https://healthbridge.org/jobs/2','2026-03-02',
- JSON_OBJECT('required_skills','Python, ML','preferred_skills','TensorFlow','education','Masters','experience_years',2,'remote_option',0)),
-
-(3,'Product Manager','Lead product lifecycle.',95000,160000,'Full-time','https://finedge.com/jobs/3','2026-03-03',
- JSON_OBJECT('required_skills','Agile, SQL','preferred_skills','Scrum','education','Bachelors','experience_years',5,'remote_option',1)),
-
-(4,'UX Designer','Design UI/UX experiences.',70000,120000,'Contract','https://greengrid.io/jobs/4','2026-03-04',
- JSON_OBJECT('required_skills','Figma','preferred_skills','Adobe XD','education','Bachelors','experience_years',3,'remote_option',1)),
-
-(5,'QA Engineer','Test applications.',65000,110000,'Full-time','https://cloudpeak.io/jobs/5','2026-03-05',
- JSON_OBJECT('required_skills','Testing, SQL','preferred_skills','Selenium','education','Associate','experience_years',2,'remote_option',0)),
-
-(6,'DevOps Engineer','Maintain CI/CD pipelines.',90000,150000,'Full-time','https://technova.com/jobs/6','2026-03-06',
- JSON_OBJECT('required_skills','Docker, Kubernetes','preferred_skills','AWS','education','Bachelors','experience_years',3,'remote_option',1)),
-
-(7,'Backend Developer','Build APIs.',80000,140000,'Full-time','https://healthbridge.org/jobs/7','2026-03-07',
- JSON_OBJECT('required_skills','Node.js, SQL','preferred_skills','GraphQL','education','Bachelors','experience_years',2,'remote_option',0)),
-
-(8,'Frontend Developer','Build UI components.',75000,130000,'Full-time','https://finedge.com/jobs/8','2026-03-08',
- JSON_OBJECT('required_skills','React','preferred_skills','TypeScript','education','Bachelors','experience_years',2,'remote_option',1)),
-
-(9,'Business Analyst','Analyze requirements.',70000,120000,'Contract','https://greengrid.io/jobs/9','2026-03-09',
- JSON_OBJECT('required_skills','SQL, Excel','preferred_skills','PowerBI','education','Masters','experience_years',3,'remote_option',0)),
-
-(10,'Marketing Specialist','Run campaigns.',60000,100000,'Full-time','https://cloudpeak.io/jobs/10','2026-03-10',
- JSON_OBJECT('required_skills','SEO','preferred_skills','Google Ads','education','Bachelors','experience_years',1,'remote_option',1)),
-
-(11,'Sales Manager','Manage sales team.',80000,130000,'Full-time','https://technova.com/jobs/11','2026-03-11',
- JSON_OBJECT('required_skills','CRM','preferred_skills','Salesforce','education','Bachelors','experience_years',4,'remote_option',0)),
-
-(12,'Support Engineer','Handle customer issues.',65000,105000,'Full-time','https://healthbridge.org/jobs/12','2026-03-12',
- JSON_OBJECT('required_skills','Linux','preferred_skills','Networking','education','Associate','experience_years',2,'remote_option',1)),
-
-(13,'Full Stack Developer','Work across stack.',85000,140000,'Full-time','https://finedge.com/jobs/13','2026-03-13',
- JSON_OBJECT('required_skills','React, Node','preferred_skills','Docker','education','Bachelors','experience_years',3,'remote_option',1)),
-
-(14,'AI Engineer','Build ML models.',95000,160000,'Full-time','https://greengrid.io/jobs/14','2026-03-14',
- JSON_OBJECT('required_skills','Python, ML','preferred_skills','PyTorch','education','Masters','experience_years',5,'remote_option',0)),
-
-(15,'Cloud Architect','Design cloud infra.',100000,170000,'Full-time','https://cloudpeak.io/jobs/15','2026-03-15',
- JSON_OBJECT('required_skills','AWS','preferred_skills','Terraform','education','Bachelors','experience_years',6,'remote_option',1)),
-
-(16,'Database Admin','Maintain DB systems.',80000,130000,'Full-time','https://technova.com/jobs/16','2026-03-16',
- JSON_OBJECT('required_skills','SQL','preferred_skills','NoSQL','education','Bachelors','experience_years',3,'remote_option',0)),
-
-(17,'Mobile Developer','Build mobile apps.',75000,130000,'Contract','https://healthbridge.org/jobs/17','2026-03-17',
- JSON_OBJECT('required_skills','React Native','preferred_skills','Swift','education','Bachelors','experience_years',2,'remote_option',1)),
-
-(18,'Cybersecurity Analyst','Monitor threats.',90000,150000,'Full-time','https://finedge.com/jobs/18','2026-03-18',
- JSON_OBJECT('required_skills','Security, Linux','preferred_skills','AWS','education','Masters','experience_years',4,'remote_option',1)),
-
-(19,'Technical Writer','Write documentation.',60000,100000,'Contract','https://greengrid.io/jobs/19','2026-03-19',
- JSON_OBJECT('required_skills','Writing','preferred_skills','Markdown','education','Bachelors','experience_years',2,'remote_option',0)),
-
-(20,'IT Project Manager','Manage IT projects.',90000,150000,'Full-time','https://cloudpeak.io/jobs/20','2026-03-20',
- JSON_OBJECT('required_skills','Agile','preferred_skills','Scrum','education','Masters','experience_years',5,'remote_option',1)),
-
-(21,'Network Engineer','Manage networks.',80000,140000,'Full-time','https://technova.com/jobs/21','2026-03-21',
- JSON_OBJECT('required_skills','Networking','preferred_skills','Cisco','education','Bachelors','experience_years',3,'remote_option',1)),
-
-(22,'Data Engineer','Build pipelines.',85000,145000,'Full-time','https://healthbridge.org/jobs/22','2026-03-22',
- JSON_OBJECT('required_skills','Python, SQL','preferred_skills','Spark','education','Bachelors','experience_years',3,'remote_option',0)),
-
-(23,'Solutions Architect','Design systems.',100000,170000,'Full-time','https://finedge.com/jobs/23','2026-03-23',
- JSON_OBJECT('required_skills','AWS','preferred_skills','Docker','education','Masters','experience_years',6,'remote_option',1)),
-
-(24,'HR Tech Specialist','Manage HR tools.',65000,110000,'Full-time','https://greengrid.io/jobs/24','2026-03-24',
- JSON_OBJECT('required_skills','HRIS','preferred_skills','Excel','education','Bachelors','experience_years',2,'remote_option',0)),
-
-(25,'UI Developer','Build UI components.',75000,125000,'Full-time','https://cloudpeak.io/jobs/25','2026-03-25',
- JSON_OBJECT('required_skills','React','preferred_skills','Figma','education','Bachelors','experience_years',2,'remote_option',1));
+(company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, requirements) VALUES
+(1, 'Software Engineer', 'Develop and maintain software applications.', 85000, 140000, 'Full-time', 'https://technova.com/jobs/1', '2026-03-01', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('Python', 'SQL'),
+        'preferred_skills', JSON_ARRAY('Docker', 'Kubernetes'),
+        'education', "Bachelor's",
+        'experience_years', 3,
+        'remote_option', 1
+    )
+),
+(2, 'Data Scientist', 'Analyze and interpret complex data.', 90000, 150000, 'Full-time', 'https://healthbridge.org/jobs/2', '2026-03-02', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('Python', 'Machine Learning'),
+        'preferred_skills', JSON_ARRAY('R', 'PowerBI'),
+        'education', "Master's",
+        'experience_years', 2,
+        'remote_option', 0
+    )
+),
+(3, 'Product Manager', 'Oversee product lifecycle and strategy.', 95000, 160000, 'Full-time', 'https://finedge.com/jobs/3', '2026-03-03', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('SQL', 'Project Management'),
+        'preferred_skills', JSON_ARRAY('Agile', 'Jira'),
+        'education', "Bachelor's",
+        'experience_years', 5,
+        'remote_option', 1
+    )
+),
+(4, 'UX Designer', 'Design engaging user experiences.', 70000, 120000, 'Contract', 'https://greengrid.io/jobs/4', '2026-03-04', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('Figma', 'Adobe XD'),
+        'preferred_skills', JSON_ARRAY('React', 'Sketch'),
+        'education', "Bachelor's",
+        'experience_years', 4,
+        'remote_option', 1
+    )
+),
+(5, 'QA Engineer', 'Test and assure software quality.', 65000, 110000, 'Full-time', 'https://cloudpeak.io/jobs/5', '2026-03-05', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('Selenium', 'Python'),
+        'preferred_skills', JSON_ARRAY('Jenkins', 'Docker'),
+        'education', "Associate",
+        'experience_years', 2,
+        'remote_option', 0
+    )
+),
+(1, 'DevOps Engineer', 'Manage infrastructure and deployment pipelines.', 90000, 150000, 'Full-time', 'https://technova.com/jobs/6', '2026-03-06', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('Docker', 'Kubernetes'),
+        'preferred_skills', JSON_ARRAY('AWS', 'Terraform'),
+        'education', "Bachelor's",
+        'experience_years', 3,
+        'remote_option', 1
+    )
+),
+(2, 'Backend Developer', 'Develop backend services and APIs.', 80000, 140000, 'Full-time', 'https://healthbridge.org/jobs/7', '2026-03-07', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('Node.js', 'SQL'),
+        'preferred_skills', JSON_ARRAY('GraphQL', 'Redis'),
+        'education', "Bachelor's",
+        'experience_years', 2,
+        'remote_option', 0
+    )
+),
+(3, 'Frontend Developer', 'Implement UI components and designs.', 75000, 130000, 'Full-time', 'https://finedge.com/jobs/8', '2026-03-08', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('React', 'HTML', 'CSS'),
+        'preferred_skills', JSON_ARRAY('TypeScript', 'SASS'),
+        'education', "Bachelor's",
+        'experience_years', 2,
+        'remote_option', 1
+    )
+),
+(4, 'Business Analyst', 'Analyze business requirements and processes.', 70000, 120000, 'Contract', 'https://greengrid.io/jobs/9', '2026-03-09', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('SQL', 'Excel'),
+        'preferred_skills', JSON_ARRAY('PowerBI', 'Tableau'),
+        'education', "Master's",
+        'experience_years', 3,
+        'remote_option', 0
+    )
+),
+(5, 'Marketing Specialist', 'Plan and execute marketing campaigns.', 60000, 100000, 'Full-time', 'https://cloudpeak.io/jobs/10', '2026-03-10', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('SEO', 'Content Creation'),
+        'preferred_skills', JSON_ARRAY('SaaS', 'Email Marketing'),
+        'education', "Bachelor's",
+        'experience_years', 1,
+        'remote_option', 1
+    )
+),
+(1, 'Sales Manager', 'Lead sales team and strategy.', 80000, 130000, 'Full-time', 'https://technova.com/jobs/11', '2026-03-11', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('CRM', 'Negotiation'),
+        'preferred_skills', JSON_ARRAY('Salesforce', 'Excel'),
+        'education', "Bachelor's",
+        'experience_years', 4,
+        'remote_option', 0
+    )
+),
+(2, 'Support Engineer', 'Provide technical support for clients.', 65000, 105000, 'Full-time', 'https://healthbridge.org/jobs/12', '2026-03-12', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('SQL', 'Linux'),
+        'preferred_skills', JSON_ARRAY('Networking', 'Docker'),
+        'education', "Associate",
+        'experience_years', 2,
+        'remote_option', 1
+    )
+),
+(3, 'Full Stack Developer', 'Develop both frontend and backend systems.', 85000, 140000, 'Full-time', 'https://finedge.com/jobs/13', '2026-03-13', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('React', 'Node.js'),
+        'preferred_skills', JSON_ARRAY('Docker', 'AWS'),
+        'education', "Bachelor's",
+        'experience_years', 3,
+        'remote_option', 1
+    )
+),
+(4, 'AI Engineer', 'Build and train AI models.', 95000, 160000, 'Full-time', 'https://greengrid.io/jobs/14', '2026-03-14', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('Python', 'Machine Learning'),
+        'preferred_skills', JSON_ARRAY('TensorFlow', 'PyTorch'),
+        'education', "Master's",
+        'experience_years', 5,
+        'remote_option', 0
+    )
+),
+(5, 'Cloud Architect', 'Design cloud architecture solutions.', 100000, 170000, 'Full-time', 'https://cloudpeak.io/jobs/15', '2026-03-15', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('AWS', 'Terraform'),
+        'preferred_skills', JSON_ARRAY('Kubernetes', 'Docker'),
+        'education', "Bachelor's",
+        'experience_years', 6,
+        'remote_option', 1
+    )
+),
+(1, 'Database Administrator', 'Manage database systems and optimization.', 80000, 130000, 'Full-time', 'https://technova.com/jobs/16', '2026-03-16', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('SQL', 'NoSQL'),
+        'preferred_skills', JSON_ARRAY('Backup/Restore', 'Replication'),
+        'education', "Bachelor's",
+        'experience_years', 3,
+        'remote_option', 0
+    )
+),
+(2, 'Mobile Developer', 'Develop mobile applications.', 75000, 130000, 'Contract', 'https://healthbridge.org/jobs/17', '2026-03-17', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('React Native', 'Swift'),
+        'preferred_skills', JSON_ARRAY('TypeScript', 'Kotlin'),
+        'education', "Bachelor's",
+        'experience_years', 2,
+        'remote_option', 1
+    )
+),
+(3, 'Cybersecurity Analyst', 'Monitor and secure systems.', 90000, 150000, 'Full-time', 'https://finedge.com/jobs/18', '2026-03-18', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('Linux', 'Python'),
+        'preferred_skills', JSON_ARRAY('AWS', 'Penetration Testing'),
+        'education', "Bachelor's",
+        'experience_years', 3,
+        'remote_option', 0
+    )
+),
+(4, 'Technical Writer', 'Document software and processes.', 60000, 100000, 'Contract', 'https://greengrid.io/jobs/19', '2026-03-19', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('Writing', 'Markdown'),
+        'preferred_skills', JSON_ARRAY('Confluence'),
+        'education', "Bachelor's",
+        'experience_years', 2,
+        'remote_option', 0
+    )
+),
+(5, 'HR Manager', 'Manage recruitment and HR processes.', 70000, 120000, 'Full-time', 'https://cloudpeak.io/jobs/20', '2026-03-20', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('Recruitment', 'Onboarding'),
+        'preferred_skills', JSON_ARRAY('HRIS', 'Payroll'),
+        'education', "Bachelor's",
+        'experience_years', 4,
+        'remote_option', 1
+    )
+),
+(1, 'Data Engineer', 'Build and maintain data pipelines.', 85000, 145000, 'Full-time', 'https://technova.com/jobs/21', '2026-03-21', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('Python', 'SQL'),
+        'preferred_skills', JSON_ARRAY('Airflow', 'Spark'),
+        'education', "Bachelor's",
+        'experience_years', 3,
+        'remote_option', 1
+    )
+),
+(2, 'Network Engineer', 'Manage and maintain network infrastructure.', 80000, 140000, 'Full-time', 'https://healthbridge.org/jobs/22', '2026-03-22', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('Cisco', 'Routing'),
+        'preferred_skills', JSON_ARRAY('Firewall', 'VPN'),
+        'education', "Bachelor's",
+        'experience_years', 3,
+        'remote_option', 0
+    )
+),
+(3, 'Graphic Designer', 'Create graphics for web and print.', 60000, 100000, 'Contract', 'https://finedge.com/jobs/23', '2026-03-23', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('Photoshop', 'Illustrator'),
+        'preferred_skills', JSON_ARRAY('Figma', 'After Effects'),
+        'education', "Bachelor's",
+        'experience_years', 2,
+        'remote_option', 1
+    )
+),
+(4, 'SEO Specialist', 'Optimize websites for search engines.', 55000, 95000, 'Full-time', 'https://greengrid.io/jobs/24', '2026-03-24', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('SEO', 'Google Analytics'),
+        'preferred_skills', JSON_ARRAY('Content Marketing', 'WordPress'),
+        'education', "Bachelor's",
+        'experience_years', 2,
+        'remote_option', 1
+    )
+),
+(5, 'Technical Recruiter', 'Recruit technical talent.', 60000, 105000, 'Full-time', 'https://cloudpeak.io/jobs/25', '2026-03-25', 1,
+    JSON_OBJECT(
+        'required_skills', JSON_ARRAY('Interviewing', 'Sourcing'),
+        'preferred_skills', JSON_ARRAY('LinkedIn Recruiter', 'ATS'),
+        'education', "Bachelor's",
+        'experience_years', 3,
+        'remote_option', 0
+    )
+);
 
 INSERT INTO applications (job_id, application_date, status, resume_version, cover_letter_sent, interview_data) VALUES
 (1, '2026-03-01', 'Applied', 'v1', 1, JSON_OBJECT(

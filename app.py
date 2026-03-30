@@ -147,7 +147,7 @@ def add_job():
             "salary_min": request.form['salary_min'],
             "salary_max": request.form['salary_max'],
             "job_type": request.form['job_type'],
-            "posting_url": request.form['posting_url'],
+            "job_url": request.form['job_url'],
             "date_posted": request.form['date_posted'],
             "requirements": json.dumps(requirements)
         }
@@ -176,7 +176,7 @@ def edit_job(id):
             "salary_min": request.form['salary_min'],
             "salary_max": request.form['salary_max'],
             "job_type": request.form['job_type'],
-            "posting_url": request.form['posting_url'],
+            "job_url": request.form['job_url'],
             "date_posted": request.form['date_posted'] or None,
             "is_active": 1 if request.form.get('is_active') else 0,
             "requirements": json.dumps(requirements)
