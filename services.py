@@ -7,17 +7,18 @@ def get_dashboard_stats():
     stats = {}
 
     #Total Applications
-    cursor.execute("SELECT COUNT(*) as count FROM applications")
+    cursor.execute("SELECT COUNT(*) as count FROM applications;")
     stats['total_applications'] = cursor.fetchone()['count']
 
     #Applications by Status
     cursor.execute("""
         SELECT status, COUNT(*) as count
         FROM applications
-        GROUP BY status
+        GROUP BY status;
     """)
     stats['by_status'] = cursor.fetchall()
 
+    #Interviews This Week
     cursor.execute("""
         SELECT j.job_title AS 'Job Title',
             c.company_name AS 'Company Name',
@@ -27,9 +28,26 @@ def get_dashboard_stats():
             ON a.job_id = j.job_id
         JOIN companies as c
             ON j.company_id = c.company_id
-        WHERE YEARWEEK(a.interview_date, 1) = YEARWEEK(CURDATE(), 1)
+        WHERE YEARWEEK(a.interview_date, 1) = YEARWEEK(CURDATE(), 1);
     """)
     stats['interviews_this_week'] = cursor.fetchall()
+
+    #Interview Rate
+    cursor.execute("""
+        SELECT COUNT(CASE WHEN interview_date IS NOT NULL THEN 1 END) * 100.0
+            / COUNT(*) AS interview_rate
+        FROM applications;
+    """)
+    stats['interview_rate'] = round(float(cursor.fetchone()['interview_rate']),2)
+
+    #Coverletter Convertion Rate
+    cursor.execute("""
+        SELECT COUNT(CASE WHEN cover_letter_sent 
+            AND interview_date IS NOT NULL THEN 1 END) * 100
+            / COUNT(*) AS coverletter_rate
+        FROM applications;
+    """)
+    stats['coverletter_rate'] = round(float(cursor.fetchone()['coverletter_rate']), 2)
 
     conn.close()
     return stats
