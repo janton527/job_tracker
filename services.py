@@ -22,20 +22,22 @@ def get_dashboard_stats():
     cursor.execute("""
         SELECT j.job_title AS 'Job Title',
             c.company_name AS 'Company Name',
-            a.interview_date AS 'Interview Date' 
+            a.interview_data->> '$.interview_date' AS 'Interview Date' 
         FROM applications AS a
         JOIN jobs AS j
             ON a.job_id = j.job_id
         JOIN companies as c
             ON j.company_id = c.company_id
-        WHERE YEARWEEK(a.interview_date, 1) = YEARWEEK(CURDATE(), 1);
+        WHERE YEARWEEK(a.interview_data->>'$.interview_date', 1) = YEARWEEK(CURDATE(), 1);
     """)
     stats['interviews_this_week'] = cursor.fetchall()
 
     #Interview Rate
     cursor.execute("""
-        SELECT COUNT(CASE WHEN interview_date IS NOT NULL THEN 1 END) * 100.0
-            / COUNT(*) AS interview_rate
+        SELECT 100.0 * SUM(
+            JSON_UNQUOTE(JSON_EXTRACT(interview_data, '$.interview_date')) IS NOT NULL
+            AND JSON_UNQUOTE(JSON_EXTRACT(interview_data, '$.interview_date')) != 'null'
+            ) / COUNT(*) AS interview_rate
         FROM applications;
     """)
     stats['interview_rate'] = round(float(cursor.fetchone()['interview_rate']),2)
@@ -43,7 +45,7 @@ def get_dashboard_stats():
     #Coverletter Convertion Rate
     cursor.execute("""
         SELECT COUNT(CASE WHEN cover_letter_sent 
-            AND interview_date IS NOT NULL THEN 1 END) * 100
+            AND interview_data->> '$.interview_date' IS NOT NULL THEN 1 END) * 100
             / COUNT(*) AS coverletter_rate
         FROM applications;
     """)

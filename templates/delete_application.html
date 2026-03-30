@@ -6,13 +6,31 @@
 
 	<table border="1">
 		<tr>
+		    {% set column_labels = {
+			"application_id" : 'ID',
+			"job_id" : 'Job ID',
+			"application_date": "Application Date",
+			"status": "Status",
+			"resume_version": "Resume Version",
+			"cover_letter_sent": "Cover Letter Sent",
+			"interview_data": "Response / Interview Dates"
+		    } %}
+
 			{% for column in application.keys() %}
-				<th>{{ column }}</th>
+				<th>{{ column_labels[column] if column in column_labels else column.replace('_', ' ' | title )}}</th>
 			{% endfor %}
 		</tr>
 		<tr>
 			{% for column in application.keys() %}
-				<td>{{application[column] }}</td>
+			    {% if column == 'interview_data' %}
+				{% set response_date = application[column].response_date if application[column].response_date else '-' %}
+				{% set interview_date = application[column].interview_date if application[column].interview_date else '-' %}
+				<td style="text-align: center">{{ response_date }} / {{ interview_date }}</td>
+			    {% elif column == 'cover_letter_sent' %}
+				<td style="text-align: center">{{ 'Yes' if application[column] else 'No' }}</td>
+			    {% else %}
+				<td>{{ application[column] }}</td>
+			    {% endif %}
 			{% endfor %}
 		</tr>
 	</table>

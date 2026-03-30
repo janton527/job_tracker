@@ -21,22 +21,38 @@
 		<input type="text" name="resume_version" 
 						   value="{{ application.resume_version if application else '' }}" required><br><br>
 
-		<label for"notes">Notes:</label>
-		<input type="textarea" name="notes"
-							   value="{{ application.notes if application else '' }}"><br><br>
-
 		<label for="cover_letter_sent">Coverletter Sent:</label>
 		<input type="checkbox" name="cover_letter_sent" 
 							   {% if application and application.cover_letter_sent %}checked{%endif%}><br><br>
 
-		{% if application %}
+		{%  if application %}
 		<label for="response_date">Response Date:</label>
 		<input type="date" name="response_date"
-						   value="{{ application.response_date if application else ''}}"><br><br>
+				   value="{{ application.interview_data.response_date }}"><br><br>
 
 		<label for="interview_date">Interview Date:</label>
 		<input type="date" name="interview_date"
-						   value="{{ application.interview_date if application else ''}}"><br><br>
+						   value="{{ application.interview_data.interview_date }}"><br><br>
+						   
+		<label for="interview_rounds">Interview Rounds:</label>
+		<input type="number" name="interview_rounds"
+				     value="{{ application.interview_data.interview_rounds }}"><br><br>
+
+		<label for="interviewers">Interviewers:</label>
+		<input type="text" name="interviewers"
+				   value="{{ application.interview_data.interviewers }}"><br><br>
+
+		<label for="technical_questions">Technical Questions:</label>
+		<input type="text" name="technical_questions"
+				   value="{{ application.interview_data.technical_questions }}"><br><br>
+
+		<label for="feedback">Feedback:</label>
+		<input type="text" name="feedback"
+			       value="{{ application.interview_data.feedback }}"><br><br>
+
+		<label for="next_steps">Next Steps:</label>
+		<input type="text" name="next_steps"
+			       value="{{ application.interview_data.next_steps }}"><br><br>
 
 		{% endif %}
 

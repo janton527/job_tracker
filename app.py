@@ -3,6 +3,7 @@ import mysql.connector
 from database import crud
 from services import get_dashboard_stats
 import os
+import json
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -11,7 +12,7 @@ def get_db():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password='Password1!',
+        password='root',
         database='job_tracker'
     )
 
@@ -28,6 +29,15 @@ def dashboard():
 @app.route('/applications')
 def applications():
     apps = crud.fetch_all('applications')
+
+    for app in apps:
+        if app.get('interview_data'):
+            if isinstance(app['interview_data'], str):
+                app['interview_data'] = json.loads(app['interview_data'])
+        else:
+            app['interview_data'] = {}
+
+
     return render_template('applications.html', applications=apps)
 
 @app.route('/add_application', methods=["GET", "POST"])
@@ -38,7 +48,6 @@ def add_application():
             "application_date": request.form['application_date'],
             "status": request.form['status'],
             "resume_version": request.form['resume_version'],
-            "notes": request.form['notes'],
             "cover_letter_sent": 1 if request.form.get('cover_letter_sent') else 0
         }
 
@@ -51,15 +60,23 @@ def add_application():
 @app.route('/edit_application/<int:id>', methods=["GET", "POST"])
 def edit_application(id):
     if request.method == "POST":
+        interview_data = {
+            "response_date": request.form.get("response_date") or None,
+            "interview_date": request.form.get("interview_date") or None,
+            "interview_rounds": request.form.get("interview_rounds") or None,
+            "interviewers": request.form.get("interviewers") or None,
+            "technical_questions": request.form.get("technical_questions") or None,
+            "feedback": request.form.get("feedback") or None,
+            "next_steps": request.form.get("next_steps") or None
+        }
+
         data = {
             "job_id": request.form['job_id'],
             "application_date": request.form['application_date'],
             "status": request.form['status'],
             "resume_version": request.form['resume_version'],
             "cover_letter_sent": 1 if request.form.get('cover_letter_sent') else 0,
-            "notes": request.form['notes'],
-            "response_date": request.form['response_date'] or None,
-            "interview_date": request.form['interview_date'] or None
+            "interview_data": json.dumps(interview_data)
         }
 
         crud.update("applications", "application_id", id, data)
@@ -67,6 +84,9 @@ def edit_application(id):
         return redirect(url_for('applications'))
 
     app_data = crud.fetch_one("applications", "application_id", id)
+    if app_data and app_data.get("interview_data"):
+        app_data["interview_data"] = json.loads(app_data["interview_data"])
+
     return render_template('application_form.html', application=app_data)
 
 @app.route('/delete_application/<int:id>', methods=["GET", "POST"])
@@ -77,17 +97,41 @@ def delete_application(id):
         return redirect(url_for('applications'))
 
     app_data = crud.fetch_one("applications", "application_id", id)
+    if app_data and app_data.get("interview_data"):
+        app_data["interview_data"] = json.loads(app_data["interview_data"])
+
     return render_template('delete_application.html', application=app_data)
 
 
 @app.route('/jobs')
 def jobs():
     jobs = crud.fetch_all('jobs')
+
+    for job in jobs:
+        if job['requirements']:
+            job['requirements'] = json.loads(job['requirements'])
+        else:
+            job['requirements'] = {
+                "required_skills": "",
+                "preferred_skills": "", 
+                "education": "", 
+                "experience_years": "",
+                "remote_option": 0
+            }
+
     return render_template('jobs.html', jobs=jobs)
 
 @app.route('/add_job', methods=["GET", "POST"])
 def add_job():
     if request.method == "POST":
+        requirements = {
+            "required_skills": request.form.get('required_skills') or None,
+            "preferred_skills": request.form.get('preferred_skills') or None,
+            "education": request.form.get('education') or None,
+            "experience_years": request.form.get('experience_years') or None,
+            "remote_option": 1 if request.form.get('remote_option') else 0
+        }
+
         data = {
             "company_id": request.form['company_id'],
             "job_title": request.form['job_title'],
@@ -96,7 +140,8 @@ def add_job():
             "salary_max": request.form['salary_max'],
             "job_type": request.form['job_type'],
             "posting_url": request.form['posting_url'],
-            "date_posted": request.form['date_posted']
+            "date_posted": request.form['date_posted'],
+            "requirements": json.dumps(requirements)
         }
 
         crud.insert("jobs", data)
@@ -108,6 +153,14 @@ def add_job():
 @app.route('/edit_job/<int:id>', methods=["GET", "POST"])
 def edit_job(id):
     if request.method == "POST":
+        requirements = {
+            "required_skills": request.form.get('required_skills') or None,
+            "preferred_skills": request.form.get('preferred_skills') or None,
+            "education": request.form.get('education') or None,
+            "experience_years": request.form.get('experience_years') or None,
+            "remote_option": 1 if request.form.get('remote_option') else 0
+        }
+
         data = {
             "company_id": request.form['company_id'],
             "job_title": request.form['job_title'],
@@ -124,8 +177,11 @@ def edit_job(id):
         flash("Job updated!")
         return redirect(url_for('jobs'))
 
-    app_data = crud.fetch_one("jobs", "job_id", id)
-    return render_template('job_form.html', job=app_data)
+    job_data = crud.fetch_one("jobs", "job_id", id)
+    if job_data and job_data.get("requirements"):
+        job_data["requirements"] = json.loads(job_data["requirements"])
+
+    return render_template('job_form.html', job=job_data)
 
 @app.route('/delete_job/<int:id>', methods=["GET", "POST"])
 def delete_job(id):
@@ -134,8 +190,11 @@ def delete_job(id):
         flash("Job deleted!")
         return redirect(url_for('jobs'))
 
-    app_data = crud.fetch_one("jobs", "job_id", id)
-    return render_template('delete_job.html', job=app_data)
+    job_data = crud.fetch_one("jobs", "job_id", id)
+    if job_data and job_data.get("requirements"):
+        job_data["requirements"] = json.loads(job_data["requiremnts"])
+
+    return render_template('delete_job.html', job=job_data)
 
 
 @app.route('/companies')
@@ -220,8 +279,7 @@ def edit_contact(id):
     if request.method == "POST": 
         data = {
             "company_id": request.form['company_id'],
-            "first_name": request.form['first_name'],
-            "last_name": request.form['last_name'],
+            "contact_name": request.form['contact_name'],
             "email": request.form['email'],
             "phone": request.form['phone'],
             "job_title": request.form['job_title'],
