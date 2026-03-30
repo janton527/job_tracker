@@ -201,8 +201,7 @@ def add_contact():
     if request.method == "POST":
         data = {
             "company_id": request.form['company_id'],
-            "first_name": request.form['first_name'],
-            "last_name": request.form['last_name'],
+            "contact_name": request.form['contact_name'],
             "email": request.form['email'],
             "phone": request.form['phone'],
             "job_title": request.form['job_title'],
