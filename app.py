@@ -35,7 +35,15 @@ def applications():
             if isinstance(app['interview_data'], str):
                 app['interview_data'] = json.loads(app['interview_data'])
         else:
-            app['interview_data'] = {}
+            app['interview_data'] = {
+                    "response_date": "",
+                    "interview_date": "",
+                    "interview_rounds": "",
+                    "interviewers": "", 
+                    "technical_questions": "",
+                    "feedback": "",
+                    "next_steps": ""
+            }
 
 
     return render_template('applications.html', applications=apps)
