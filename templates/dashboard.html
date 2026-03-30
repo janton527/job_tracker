@@ -2,5 +2,35 @@
 
 {% block content %}
 	<h1>Dashboard Stats:</h1>
-	<p>Total Applications: {{stats.count}}</p>
+
+	<p>Total Applications: {{stats.total_applications}}</p>
+	<ul>
+		{% for row in stats.by_status %}
+			<li>{{ row.status }}: {{row.count }}</li>
+		{% endfor %}
+	</ul>
+
+	<p>Interviews this week:</p>
+	{% if stats.interviews_this_week %}
+	<table border="1">
+		<tr>
+			{% for column in stats.interviews_this_week[0].keys() %}
+				<th>{{ column }}</th>
+			{% endfor %}
+		</tr>
+
+		{% for interview in stats.interviews_this_week %}
+		<tr>
+			{% for column in stats.interviews_this_week[0].keys() %}
+				<td>{{ interview[column] }}</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</table>
+	{% else %}
+	<p> No interviews scheduled this week.</p>
+	{% endif%}
+
+
+
 {% endblock %}

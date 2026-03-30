@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
 import mysql.connector
 from database import crud
+from services import get_dashboard_stats
 import os
 
 app = Flask(__name__)
@@ -18,12 +19,10 @@ def get_db():
 @app.route('/index')
 @app.route('/dashboard')
 def dashboard():
-    conn = get_db()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute('SELECT COUNT(*) as count FROM applications')
-    stats = cursor.fetchone()
-    conn.close()
+    stats = get_dashboard_stats()
     return render_template('dashboard.html', stats=stats)
+
+
 
 
 @app.route('/applications')
