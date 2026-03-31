@@ -38,11 +38,12 @@
 
 		<label for="required_skills">Required Skills:</label>
 		<input type="text" name="required_skills"
-			       value="{{ job.requirements['required_skills']|join(', ') if job and job.requirements else '' }}"><br><br>
+				value="{{ job.requirements['required_skills']|join(', ') if job and job.requirements and job.requirements['required_skills'] else '' }}"><br><br>
 
 		<label for="preferred_skills">Preferred Skills:</label>
 		<input type="text" name="preferred_skills"
-			       value="{{ job.requirements['preferred_skills']|join(', ') if job and job.requirements else '' }}"><br><br>
+				value="{{ job.requirements['preferred_skills']|join(', ') if job and job.requirements and job.requirements['preferred_skills'] else '' }}"><br><br>
+
 
 		<label for="education">Education:</label>
 		<input type="text" name="education"

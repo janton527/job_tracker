@@ -28,7 +28,13 @@
 				{% endif %}
 			    {% else %}
 				{% for key, val in value.items() %}
-				    <td style="text-align:center;"> {{ val or '-' }}</td>
+				    <td style="text-align:center;"> 
+					{% if key in ['required_skills', 'preferred_skills'] and val %}
+					    {{ val|join(', ') }}
+					{% else %}
+					    {{ val or '-' }}
+					{% endif %}
+				    </td>
 				{% endfor %}
 			    {% endif %}
 			{% endfor %}

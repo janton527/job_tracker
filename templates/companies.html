@@ -7,7 +7,7 @@
 	<table border="1">
 		<tr>
 			{% for column in companies[0].keys() %}
-				<th>{{ column }}</th>
+				<th>{{ column.replace('_', ' ').title() }}</th>
 			{% endfor %}
 		</tr>
 

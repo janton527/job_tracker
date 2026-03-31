@@ -118,10 +118,19 @@ def jobs():
         if job.get('requirements'):
             if isinstance(job['requirements'], str):
                 job['requirements'] = json.loads(job['requirements'])
+
+            if isinstance(job['requirements'].get('required_skills'), str):
+                job['requirements']['required_skills'] = [
+                    s.strip() for s in job['requirements']['required_skills'].split(',') if s.strip()
+                ]
+            if isinstance(job['requirements'].get('preferred_skills'), str):
+                job['requirements']['preferred_skills'] = [
+                    s.strip() for s in job['requirements']['preferred_skills'].split(',') if s.strip()
+                ]
         else:
             job['requirements'] = {
-                "required_skills": "",
-                "preferred_skills": "", 
+                "required_skills": [],
+                "preferred_skills": [], 
                 "education": "", 
                 "experience_years": "",
                 "remote_option": 0
@@ -132,9 +141,12 @@ def jobs():
 @app.route('/add_job', methods=["GET", "POST"])
 def add_job():
     if request.method == "POST":
+        required_skills = request.form.get('required_skills', '')
+        preferred_skills = request.form.get('preferred_skills', '')
+
         requirements = {
-            "required_skills": request.form.get('required_skills') or None,
-            "preferred_skills": request.form.get('preferred_skills') or None,
+            "required_skills": [skill.strip() for skill in required_skills.split(',') if skill.strip()] or None,
+            "preferred_skills": [skill.strip() for skill in preferred_skills.split(',') if skill.strip()] or None,
             "education": request.form.get('education') or None,
             "experience_years": request.form.get('experience_years') or None,
             "remote_option": 1 if request.form.get('remote_option') else 0
@@ -149,6 +161,7 @@ def add_job():
             "job_type": request.form['job_type'],
             "job_url": request.form['job_url'],
             "date_posted": request.form['date_posted'],
+            "is_active": 1,
             "requirements": json.dumps(requirements)
         }
 
@@ -161,9 +174,12 @@ def add_job():
 @app.route('/edit_job/<int:id>', methods=["GET", "POST"])
 def edit_job(id):
     if request.method == "POST":
+        required_skills = request.form.get('required_skills', '')
+        preferred_skills = request.form.get('preferred_skills', '')
+
         requirements = {
-            "required_skills": request.form.get('required_skills') or None,
-            "preferred_skills": request.form.get('preferred_skills') or None,
+            "required_skills": [skill.strip() for skill in required_skills.split(',') if skill.strip()] or None,
+            "preferred_skills": [skill.strip() for skill in preferred_skills.split(',') if skill.strip()] or None,
             "education": request.form.get('education') or None,
             "experience_years": request.form.get('experience_years') or None,
             "remote_option": 1 if request.form.get('remote_option') else 0
@@ -181,6 +197,7 @@ def edit_job(id):
             "is_active": 1 if request.form.get('is_active') else 0,
             "requirements": json.dumps(requirements)
         }
+
 
         crud.update("jobs", "job_id", id, data)
         flash("Job updated!")
@@ -201,7 +218,7 @@ def delete_job(id):
 
     job_data = crud.fetch_one("jobs", "job_id", id)
     if job_data and job_data.get("requirements"):
-        job_data["requirements"] = json.loads(job_data["requiremnts"])
+        job_data["requirements"] = json.loads(job_data["requirements"])
 
     return render_template('delete_job.html', job=job_data)
 
@@ -315,6 +332,56 @@ def delete_contact(id):
     app_data = crud.fetch_one("contacts", "contact_id", id)
     return render_template('delete_contact.html', contact=app_data)
 
+
+@app.route('/job_match', methods=["GET", "POST"])
+def job_match():
+    matched_jobs = []
+    user_skills = ""
+
+    if request.method == "POST":
+        user_skills = request.form.get('user_skills', '')
+        user_skills_list = [skill.strip().lower() for skill in user_skills.split(', ') if skill.strip()]
+
+        conn = get_db()
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT jobs.*, companies.company_name
+            FROM jobs
+            LEFT JOIN companies on jobs.company_id = companies.company_id
+        """)
+        jobs = cursor.fetchall()
+        conn.close()
+
+        for job in jobs: 
+            requirements = json.loads(job['requirements']) if job.get('requirements') else {}
+            required_skills = requirements.get('required_skills') or []
+            required_skills_lower = [s.lower() for s in required_skills]
+
+            if required_skills_lower:
+                matched_skills = [s for s in user_skills_list if s in required_skills_lower]
+                missing_skills = [s for s in required_skills if s.lower() not in user_skills_list]
+
+                match_percentage = round(len(matched_skills) / len(required_skills_lower) * 100)
+
+                if match_percentage > 0:  
+                    matched_jobs.append({
+                        'job_title': job['job_title'],
+                        'company': job['company_name'],
+                        'match_percentage': match_percentage,
+                        'matched_count': len(matched_skills),
+                        'total_skills': len(required_skills_lower),
+                        'missing_skills': missing_skills
+                    })
+
+        # Sort jobs by match percentage descending
+        matched_jobs.sort(key=lambda x: x['match_percentage'], reverse=True)
+
+    return render_template(
+        'job_match.html',
+        matched_jobs=matched_jobs,
+        user_skills=user_skills
+        )
 
 
 if __name__ == '__main__':

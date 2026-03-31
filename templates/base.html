@@ -1,31 +1,39 @@
 <!doctype html>
 <html>
-	<head>
-		{% if title %}
-		<title>{{ title }} - Job Application Tracker</title>
-		{% else %}
-		<title>Welcome to Job Application Tracker</title>
-		{% endif %}
-	</head>
-	<body>
-		<div>
-			Job Application Tracker:
-			<a href="{{ url_for('dashboard') }}">Dashboard</a>
-			<a href="{{ url_for('applications') }}">Applications</a>
-			<a href="{{ url_for('jobs') }}">Jobs</a>
-			<a href="{{ url_for('companies') }}">Companies</a>
-			<a href="{{ url_for('contacts') }}">Contacts</a>
-		</div>
-		<hr>
-		{% with messages = get_flashed_messages() %}
-		{% if messages %}
+    <head>
+	<meta charset="UTF-8">
+	{% if title %}
+	<title>{{ title }} - Job Application Tracker</title>
+	{% else %}
+	<title>Welcome to Job Application Tracker</title>
+	{% endif %}
+
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    </head>
+    <body>
+	<div class="header">
+		Job Application Tracker
+		<a href="{{ url_for('dashboard') }}">Dashboard</a>
+		<a href="{{ url_for('applications') }}">Applications</a>
+		<a href="{{ url_for('jobs') }}">Jobs</a>
+		<a href="{{ url_for('companies') }}">Companies</a>
+		<a href="{{ url_for('contacts') }}">Contacts</a>
+		<a href="{{ url_for('job_match') }}">Job Match</a>
+	</div>
+
+	<hr>
+	<div class="content">
+	{% with messages = get_flashed_messages() %}
+	    {% if messages %}
 		<ul>
-			{% for message in messages %}
+		    {% for message in messages %}
 			<li>{{ message }} </li>
-			{% endfor %}
+		    {% endfor %}
 		</ul>
-		{% endif %}
-		{% endwith %}
-		{% block content%}{% endblock %}
-	</body>
+	    {% endif %}
+	{% endwith %}
+	{% block content%}{% endblock %}
+	</div>
+    </body>
 </html>
