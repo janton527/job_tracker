@@ -25,7 +25,10 @@ CREATE TABLE jobs (
 	date_posted DATE,
 	is_active BOOLEAN,
 	requirements JSON,
-	FOREIGN KEY (company_id) REFERENCES companies(company_id)
+	FOREIGN KEY (company_id) 
+	    REFERENCES companies(company_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
 );
 
 CREATE TABLE applications (
@@ -36,7 +39,11 @@ CREATE TABLE applications (
 	resume_version VARCHAR(50),
 	cover_letter_sent BOOLEAN,
 	interview_data JSON,
-	FOREIGN KEY (job_id) REFERENCES jobs(job_id)
+	FOREIGN KEY (job_id) 
+	    REFERENCES jobs(job_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+
 );
 
 CREATE TABLE contacts (
@@ -48,5 +55,8 @@ CREATE TABLE contacts (
 	phone VARCHAR(20),
 	linkedin_url VARCHAR (200),
 	notes TEXT,
-	FOREIGN KEY (company_id) REFERENCES companies(company_id)
+	FOREIGN KEY (company_id) 
+	    REFERENCES companies(company_id)
+		ON DELETE CASCADE
+		ON DELETE CASCADE
 );
