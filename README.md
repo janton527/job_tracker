@@ -7,14 +7,19 @@ A web application to help track job applications during the job search process.
 - Record application submissions
 - Manage interview schedules
 - Store contact information
+- Job Matching
 
 ## Technologies
 - MySQL Database
 - Python with Flask
 - HTML/CSS for the web interface
 
-## Dashboard Metrics to Impliment:
-- Interviews this week
-- Application -> interview rate
-- Coverletter conversion rate
+## Setup
+- Create Virtual Enviroment using "python3 -m venv <env_name>"
+- Activate Virtual Environment using "source <env_name>/bin/activate"
+- Install Flask and MySQL-connector-python using "pip install flask mysql-connector-python"
+- Create job_tracker database using MySQLWorkbench or cmd
+- create database tables using "mysql -u <username> -p job_tracker < schema.sql"
+- Populate database tables with seed data using "mysql -u <username> -p job_tracker < seed.sql"
+- Access website using "http://localhost:5000/"
 
