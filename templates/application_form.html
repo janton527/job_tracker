@@ -14,8 +14,14 @@
 						   value="{{ application.application_date if application else '' }}" required><br><br>
 
 		<label for="status">Application Status:</label>
-		<input type="text" name="status"
-						   value="{{ application.status if application else '' }}"><br><br>
+		<select name="status" id="status" required>
+		    {% for status in valid_app_status %}
+			<option value="{{ status }}"
+				{% if application and application.status == status %}selected{% endif %}>
+				{{ status }}
+			</option>
+		    {% endfor %}
+		</select><br><br>
 
 		<label for="resume_version">Resume Version:</label>
 		<input type="text" name="resume_version" 

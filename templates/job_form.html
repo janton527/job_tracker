@@ -25,8 +25,14 @@
 				value="{{ job.salary_max if job else '' }}"><br><br>
 
 		<label for="job_type">Job Type:</label>
-		<input type="text" name="job_type"
-				value="{{ job.job_type if job else '' }}" required><br><br>
+		<select name="job_type" id="job_type" required>
+		    {% for jt in valid_job_types %}
+			<option value="{{ jt }}"
+				{% if job and job.job_type == jt %}selected{% endif %}>
+				{{ jt }}
+			</option>
+		    {% endfor %}
+		</select><br><br>
 
 		<label for="job_url">Posting URL:</label>
 		<input type="text" name="job_url"

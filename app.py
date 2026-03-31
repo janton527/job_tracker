@@ -8,6 +8,9 @@ import json
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
+VALID_JOB_TYPES = ['Full-time', 'Part-time', 'Contract', 'Internship']
+VALID_APP_STATUS = ['Applied', 'Screening', 'Interview', 'Offer', 'Rejected', 'Withdrawn']
+
 def get_db():
     return mysql.connector.connect(
         host='localhost',
@@ -50,6 +53,12 @@ def applications():
 @app.route('/add_application', methods=["GET", "POST"])
 def add_application():
     if request.method == "POST":
+        app_status = request.form.get('status')
+
+        if app_status not in VALID_APP_STATUS:
+            flash(f"Invalid status: {status}. Must be one of {', '.join(VALID_APP_STATUS)}")
+            return render_template('application_form.html', app=request.form)
+
         data = {
             "job_id": request.form['job_id'],
             "application_date": request.form['application_date'],
@@ -62,7 +71,7 @@ def add_application():
         flash("Application added!")
         return redirect(url_for('applications'))
 
-    return render_template('application_form.html')
+    return render_template('application_form.html', valid_app_status=VALID_APP_STATUS)
 
 @app.route('/edit_application/<int:id>', methods=["GET", "POST"])
 def edit_application(id):
@@ -94,7 +103,7 @@ def edit_application(id):
     if app_data and app_data.get("interview_data"):
         app_data["interview_data"] = json.loads(app_data["interview_data"])
 
-    return render_template('application_form.html', application=app_data)
+    return render_template('application_form.html', application=app_data, valid_app_status=VALID_APP_STATUS)
 
 @app.route('/delete_application/<int:id>', methods=["GET", "POST"])
 def delete_application(id):
@@ -143,6 +152,11 @@ def add_job():
     if request.method == "POST":
         required_skills = request.form.get('required_skills', '')
         preferred_skills = request.form.get('preferred_skills', '')
+        job_type = request.form.get('job_type')
+
+        if job_type not in VALID_JOB_TYPES:
+            flash(f"Invalid job type: {job_type}. Must be one of {', '.join(VALID_JOB_TYPES)}")
+            return render_template('job_form.html', job=request.form)
 
         requirements = {
             "required_skills": [skill.strip() for skill in required_skills.split(',') if skill.strip()] or None,
@@ -169,7 +183,7 @@ def add_job():
         flash("Job added!")
         return redirect(url_for('jobs'))
 
-    return render_template('job_form.html')
+    return render_template('job_form.html', valid_job_types=VALID_JOB_TYPES)
 
 @app.route('/edit_job/<int:id>', methods=["GET", "POST"])
 def edit_job(id):
@@ -207,7 +221,7 @@ def edit_job(id):
     if job_data and job_data.get("requirements"):
         job_data["requirements"] = json.loads(job_data["requirements"])
 
-    return render_template('job_form.html', job=job_data)
+    return render_template('job_form.html', job=job_data, valid_job_types=VALID_JOB_TYPES)
 
 @app.route('/delete_job/<int:id>', methods=["GET", "POST"])
 def delete_job(id):
