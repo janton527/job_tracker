@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content%}
+<div class="job-match">
+<h1>Job Match</h1>
+
+<form method="POST">
+    <label for="user_skills">Enter your skills (comma separated):</label><br>
+    <input type="text" name="user_skills" value="{{ user_skills|default('') }}"><br><br>
+    <input type="submit" value="Find Jobs">
+</form>
+
+{% if matched_jobs %}
+<h2>Matching Jobs:</h2>
+    <ol>
+	{% for job in matched_jobs %}
+	<li>
+	    {{ job.job_title}} at {{ job.company }} - {{ job.match_percentage }}% ({{ job.matched_count }}/ {{job.total_skills }} )
+	    {% if job.missing_skills %}
+	    <br>&nbsp;&nbsp;Missing: {{ job.missing_skills|join(', ') }}
+	    {% endif %}
+	</li>
+	{% endfor %}
+    </ol>
+{% elif user_skills %}
+<p>No matching jobs found.</p>
+{% endif %}
+</div>
+{% endblock %}
