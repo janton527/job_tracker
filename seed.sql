@@ -484,7 +484,7 @@ INSERT INTO applications (job_id, application_date, status, resume_version, cove
     'next_steps', 'Finalize offer'
 ));
 
-INSERT INTO contacts (company_id, contact_name, title, email, phone, linkedin_url, notes) VALUES
+INSERT INTO contacts (company_id, contact_name, job_title, email, phone, linkedin_url, notes) VALUES
 (1,'Alice Johnson','Recruiter','alice@technova.com','111-111-1111','linkedin.com/alice','HR'),
 (2,'Bob Smith','Manager','bob@health.com','222-222-2222','linkedin.com/bob','Manager'),
 (3,'Carol Lee','CTO','carol@finedge.com','333-333-3333','linkedin.com/carol','CTO'),

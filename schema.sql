@@ -43,7 +43,7 @@ CREATE TABLE contacts (
 	contact_id INT PRIMARY KEY AUTO_INCREMENT,
 	company_id INT REFERENCES companies(company_id),
 	contact_name VARCHAR(100) NOT NULL,
-	title VARCHAR(100),
+	job_title VARCHAR(100),
 	email VARCHAR(100),
 	phone VARCHAR(20),
 	linkedin_url VARCHAR (200),
