@@ -37,7 +37,7 @@ class CRUD:
         return mysql.connector.connect(
                 host='localhost',
                 user='root',
-                password='root',
+                password='[YOUR_PASSWORD]',
                 database='job_tracker'
         )
 

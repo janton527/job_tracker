@@ -15,7 +15,7 @@ def get_db():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password='root',
+        password='[YOUR_PASSOWRD]',
         database='job_tracker'
     )
 
