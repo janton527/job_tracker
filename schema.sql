@@ -43,7 +43,6 @@ CREATE TABLE applications (
 	    REFERENCES jobs(job_id)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE
-
 );
 
 CREATE TABLE contacts (
@@ -58,5 +57,5 @@ CREATE TABLE contacts (
 	FOREIGN KEY (company_id) 
 	    REFERENCES companies(company_id)
 		ON DELETE CASCADE
-		ON DELETE CASCADE
+		ON UPDATE CASCADE
 );
